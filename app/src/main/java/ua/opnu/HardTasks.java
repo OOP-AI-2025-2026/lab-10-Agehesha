@@ -117,14 +117,22 @@ public class HardTasks {
      * Повертає три найбільш "свіжі" замовлення за датою orderDate.
      * Повинні бути замовлення з id 23, 30, 33.
      */
-    public List<Order> getRecentOrders() {
-        long skip = Math.max(0, orders.size() - 3L);
+public List<Order> getRecentOrders() {
 
-        return orders.stream()
-                .sorted(Comparator.comparing(Order::getOrderDate)) // спочатку за датою зростаюче
-                .skip(skip)                                        // залишаємо останні 3
-                .toList();                                         // у порядку від найстаршого з трьох до найновішого
-    }
+    // id замовлень 23, 30, 33
+
+    long skip = Math.max(0, orders.size() - 3L);
+
+    return orders.stream()
+            // сначала сортируем по дате, а при равной дате — по id
+            .sorted(
+                    Comparator.comparing(Order::getOrderDate)
+                              .thenComparing(Order::getId)
+            )
+            // оставляем только три последних по дате (и id внутри даты)
+            .skip(skip)
+            .toList();
+}
 
     /**
      * Завдання 6.

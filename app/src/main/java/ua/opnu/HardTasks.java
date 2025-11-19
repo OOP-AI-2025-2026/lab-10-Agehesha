@@ -1,17 +1,22 @@
 package ua.opnu;
 
+import ua.opnu.util.Product;
+import ua.opnu.util.Order;
+
+import java.util.Comparator;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.Comparator;
+
 
 public class HardTasks {
 
+
     public List<Product> getBooksWithPrice(List<Product> products) {
         return products.stream()
-                .filter(p -> "Books".equalsIgnoreCase(p.getCategory()))
+                .filter(p -> "Books".equals(p.getCategory()))
                 .filter(p -> p.getPrice() > 100)
                 .collect(Collectors.toList());
     }
@@ -19,20 +24,20 @@ public class HardTasks {
     public List<Order> getOrdersWithBabyProducts(List<Order> orders) {
         return orders.stream()
                 .filter(order -> order.getProducts().stream()
-                        .anyMatch(p -> "Baby".equalsIgnoreCase(p.getCategory())))
+                        .anyMatch(p -> "Baby".equals(p.getCategory())))
                 .collect(Collectors.toList());
     }
 
     public List<Product> applyDiscountToToys(List<Product> products) {
         return products.stream()
-                .filter(p -> "Toys".equalsIgnoreCase(p.getCategory()))
+                .filter(p -> "Toys".equals(p.getCategory()))
                 .peek(p -> p.setPrice(p.getPrice() * 0.5))
                 .collect(Collectors.toList());
     }
 
     public Optional<Product> getCheapestBook(List<Product> products) {
         return products.stream()
-                .filter(p -> "Books".equalsIgnoreCase(p.getCategory()))
+                .filter(p -> "Books".equals(p.getCategory()))
                 .min(Comparator.comparingDouble(Product::getPrice));
     }
 
@@ -45,7 +50,7 @@ public class HardTasks {
 
     public DoubleSummaryStatistics getBooksStats(List<Product> products) {
         return products.stream()
-                .filter(p -> "Books".equalsIgnoreCase(p.getCategory()))
+                .filter(p -> "Books".equals(p.getCategory()))
                 .mapToDouble(Product::getPrice)
                 .summaryStatistics();
     }
@@ -65,3 +70,4 @@ public class HardTasks {
                 .collect(Collectors.groupingBy(Product::getCategory));
     }
 }
+
